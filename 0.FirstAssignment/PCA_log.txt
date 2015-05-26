@@ -1,0 +1,204 @@
+Primary Component Analysis
+
+
+> reds=read.csv("winequality-red.csv")
+
+> whites=read.csv("winequality-white.csv")
+
+>   # Standardize the Vectors
+> reds.pr.out=prcomp(reds)
+
+> whites.pr.out=prcomp(whites)
+
+>   # calculate the variance for each variable
+> 
+> reds.var = reds.pr.out$sdev^2
+
+> whites.var = whites.pr.out$sdev^2
+
+>   # Determine the total variance each varaible contributes to the whole
+> 
+> sum.reds.var = sum(reds.var)
+
+> sum.whites.var = sum(whites.var)
+
+> reds.percent_variance_explained = reds.var/sum.reds.var
+
+> reds.pve = reds.percent_variance_explained
+
+> whites.pve = whites.var/sum.whites.var
+
+>   # excluding the fixed acidity column gives:
+> reds.pr.out.n.fixed.acidity = prcomp(reds[,-1])
+
+> whites.pr.out.n.fixed.acidity = prcomp(whites[,-1])
+
+> reds.without.fixed.acidity.var = reds.pr.out.n.fixed.acidity$sdev^2
+
+> whites.without.fixed.acidity.var = whites.pr.out.n.fixed.acidity$sdev^2
+
+> sum.reds.without.fixed.acidity.var = sum(reds.without.fixed.acidity.var)
+
+> sum.whites.without.fixed.acidity.var = sum(whites.without.fixed.acidity.var)
+
+> reds.n.fixed.acidity.pve =  reds.without.fixed.acidity.var/sum.reds.without.fixed.acidity.var
+
+> whites.n.fixed.acidity.pve = whites.without.fixed.acidity.var/sum.whites.without.fixed.acidity.var
+
+> reds=read.csv("winequality-red.csv")
+
+> whites=read.csv("winequality-white.csv")
+
+>   # Standardize the Vectors
+> reds.pr.out=prcomp(reds)
+
+> whites.pr.out=prcomp(whites)
+
+>   # calculate the variance for each variable
+> 
+> reds.var = reds.pr.out$sdev^2
+
+> whites.var = whites.pr.out$sdev^2
+
+>   # Determine the total variance each varaible contributes to the whole
+> 
+> sum.reds.var = sum(reds.var)
+
+> sum.whites.var = sum(whites.var)
+
+> reds.percent_variance_explained = reds.var/sum.reds.var
+
+> reds.pve = reds.percent_variance_explained
+
+> whites.pve = whites.var/sum.whites.var
+
+>   # Reds PVE
+>   reds.pve
+ [1] 9.460795e-01 4.834835e-02 2.595991e-03 1.522887e-03 1.049104e-03
+ [6] 3.349880e-04 3.100824e-05 1.934401e-05 9.438894e-06 8.178814e-06
+[11] 1.198998e-06 4.683062e-10
+
+>   summary(reds.pve)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.0000000 0.0000091 0.0001830 0.0833300 0.0017910 0.9461000 
+
+>   # Whites PVE
+>   
+>   whites.pve
+ [1] 9.093312e-01 7.931411e-02 1.015142e-02 6.196311e-04 3.232912e-04
+ [6] 2.355836e-04 8.657381e-06 6.645675e-06 5.388618e-06 3.863460e-06
+[11] 1.863520e-07 1.472910e-10
+
+> 	summary(whites.pve)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.0000000 0.0000050 0.0001221 0.0833300 0.0030030 0.9093000 
+
+>   # excluding the fixed acidity column gives:
+> reds.pr.out.n.fixed.acidity = prcomp(reds[,-1])
+
+> whites.pr.out.n.fixed.acidity = prcomp(whites[,-1])
+
+> reds.without.fixed.acidity.var = reds.pr.out.n.fixed.acidity$sdev^2
+
+> whites.without.fixed.acidity.var = whites.pr.out.n.fixed.acidity$sdev^2
+
+> sum.reds.without.fixed.acidity.var = sum(reds.without.fixed.acidity.var)
+
+> sum.whites.without.fixed.acidity.var = sum(whites.without.fixed.acidity.var)
+
+> reds.n.fixed.acidity.pve =  reds.without.fixed.acidity.var/sum.reds.without.fixed.acidity.var
+
+> whites.n.fixed.acidity.pve = whites.without.fixed.acidity.var/sum.whites.without.fixed.acidity.var
+
+>   # Reds PVE without Fixed Acidity
+>   
+>   reds.n.fixed.acidity.pve
+ [1] 9.484431e-01 4.844476e-02 1.608239e-03 1.057217e-03 3.543105e-04
+ [6] 4.816846e-05 1.962426e-05 1.501934e-05 8.295986e-06 1.306054e-06
+[11] 1.226104e-09
+
+>   summary(reds.n.fixed.acidity.pve)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.0000000 0.0000117 0.0000482 0.0909100 0.0013330 0.9484000 
+
+>   # Whites PVE without Fixed Acitdity
+>   
+>   whites.n.fixed.acidity.pve
+ [1] 9.096340e-01 7.933407e-02 1.015318e-02 6.152222e-04 2.363102e-04
+ [6] 1.076950e-05 6.990263e-06 5.394198e-06 3.864902e-06 1.876621e-07
+[11] 2.923336e-10
+
+>   summary(whites.n.fixed.acidity.pve)
+     Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
+0.0000000 0.0000046 0.0000108 0.0909100 0.0053840 0.9096000 
+
+> reds=read.csv("winequality-red.csv")
+
+> whites=read.csv("winequality-white.csv")
+
+>   # Standardize the Vectors
+> reds.pr.out=prcomp(reds)
+
+> whites.pr.out=prcomp(whites)
+
+>   # calculate the variance for each variable
+> 
+> reds.var = reds.pr.out$sdev^2
+
+> whites.var = whites.pr.out$sdev^2
+
+>   # Determine the total variance each varaible contributes to the whole
+> 
+> sum.reds.var = sum(reds.var)
+
+> sum.whites.var = sum(whites.var)
+
+> reds.percent_variance_explained = reds.var/sum.reds.var
+
+> reds.pve = reds.percent_variance_explained
+
+> whites.pve = whites.var/sum.whites.var
+
+>   # Reds PVE
+>   reds.pve
+ [1] 9.460795e-01 4.834835e-02 2.595991e-03 1.522887e-03 1.049104e-03
+ [6] 3.349880e-04 3.100824e-05 1.934401e-05 9.438894e-06 8.178814e-06
+[11] 1.198998e-06 4.683062e-10
+
+>   # Whites PVE
+>   
+>   whites.pve
+ [1] 9.093312e-01 7.931411e-02 1.015142e-02 6.196311e-04 3.232912e-04
+ [6] 2.355836e-04 8.657381e-06 6.645675e-06 5.388618e-06 3.863460e-06
+[11] 1.863520e-07 1.472910e-10
+
+>   # excluding the fixed acidity column gives:
+> reds.pr.out.n.fixed.acidity = prcomp(reds[,-1])
+
+> whites.pr.out.n.fixed.acidity = prcomp(whites[,-1])
+
+> reds.without.fixed.acidity.var = reds.pr.out.n.fixed.acidity$sdev^2
+
+> whites.without.fixed.acidity.var = whites.pr.out.n.fixed.acidity$sdev^2
+
+> sum.reds.without.fixed.acidity.var = sum(reds.without.fixed.acidity.var)
+
+> sum.whites.without.fixed.acidity.var = sum(whites.without.fixed.acidity.var)
+
+> reds.n.fixed.acidity.pve =  reds.without.fixed.acidity.var/sum.reds.without.fixed.acidity.var
+
+> whites.n.fixed.acidity.pve = whites.without.fixed.acidity.var/sum.whites.without.fixed.acidity.var
+
+>   # Reds PVE without Fixed Acidity
+>   
+>   reds.n.fixed.acidity.pve
+ [1] 9.484431e-01 4.844476e-02 1.608239e-03 1.057217e-03 3.543105e-04
+ [6] 4.816846e-05 1.962426e-05 1.501934e-05 8.295986e-06 1.306054e-06
+[11] 1.226104e-09
+
+>   # Whites PVE without Fixed Acitdity
+>   
+>   whites.n.fixed.acidity.pve
+ [1] 9.096340e-01 7.933407e-02 1.015318e-02 6.152222e-04 2.363102e-04
+ [6] 1.076950e-05 6.990263e-06 5.394198e-06 3.864902e-06 1.876621e-07
+[11] 2.923336e-10
