@@ -76,3 +76,5 @@ mean(ver.glm.preds==versicolor$Species)
 library(MASS)
 vir.lda.model=lda(Species~Petal.Length + Petal.Width + Sepal.Length +
 		  Sepal.Width, data=virginica)
+		  
+vir.lda.pred=predict(vir.lda.model, 

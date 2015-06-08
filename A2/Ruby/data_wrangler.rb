@@ -1,5 +1,4 @@
 require 'rubygems'
-require 'rserve'
 require 'csv'
 
 class DataWrangler
@@ -17,7 +16,7 @@ class DataWrangler
 
   # First Read the CSV into memory.  Create three arrays.
 
- CSV.foreach('/home/christopher/Documents/WMU Classes/CS5950_Machine_Learning/CS5950-Machine_Learning/A2/Ruby/iris_data.csv', :headers=>TRUE) do |row|
+ CSV.foreach('iris_data.csv', :headers=>TRUE) do |row|
    temp_hash={row.headers[0].to_sym=>row[0].to_f, row.headers[1].to_sym=>row[1].to_f,
               row.headers[2].to_sym=>row[2].to_f, row.headers[3].to_sym=>row[3].to_f, row.headers[4].to_sym=>row[4]}
    if(temp_hash[:Species] == "Iris-virginica")
@@ -31,65 +30,53 @@ class DataWrangler
 
   # Next separate out some training and testing data.
 
-  @iris_test.push(@versicolor.pop(5))
-  @iris_test.push(@virginica.pop(5))
-  @iris_test.push(@setosa.pop(5))
+  @versicolor.pop(5).map {|entry| @iris_test.push(entry)}
+  @virginica.pop(5).map {|entry| @iris_test.push(entry)}
+  @setosa.pop(5).map {|entry| @iris_test.push(entry)}
+
+  CSV.open('iris_test.csv', 'wb') do |line|
+
+    @iris_test.each do |entry|
+      print_string=String.new('')
+      entry.each_value do |value|
+        print_string << "#{value},"
+      end
+      line << [print_string]
+    end
+  end
 
   @virginica.collect {|row| @iris_train.push(row)}
   @versicolor.collect {|row| @iris_train.push(row)}
   @setosa.collect {|row| @iris_train.push(row)}
 
 
+
   @iris_train[0].each_key { |key| @iris_categories.push("'#{key.to_s}'")} # Generated a "categories" iterator
 
 
-  # Now start by training a "General Linear Model"
-
   @training_iterator.each do |iris_species|
-    petal_widths=[]
-    petal_lengths=[]
-    sepal_widths=[]
-    sepal_lengths=[]
-    species=[]
 
-    @iris_train.collect do |observation|
-      petal_widths.push(observation[:Petal_Width])
-      petal_lengths.push(observation[:Petal_Length])
-      sepal_widths.push(observation[:Sepal_Width])
-      sepal_lengths.push(observation[:Sepal_Length])
+    temp_clone = Marshal.load(Marshal.dump(@iris_train))
 
-      if iris_species == observation[:Species]
-        species.push(observation[:Species])
+    temp_clone.each do |entry|
+      if entry[:Species].eql?(iris_species)
       else
-        species.push('other')
+        entry[:Species] = "other"
       end
     end
-
-
-
-    species.map! {|name| "'#{name}'"}
 
     count=0
-    train_csv=CSV.open("/home/christopher/Documents/WMU Classes/CS5950_Machine_Learning/CS5950-Machine_Learning/A2/Ruby/#{iris_species}_train.csv", 'wb') do |line|
+    CSV.open("#{iris_species}_train.csv", 'w') do |line|
 
-      if count==0
-        line << [@iris_categories.to_csv(:row_sep=>FALSE)]
-        count+=1
-      else
-
+      temp_clone.each do |entry|
+        write_string=String.new('')
+        entry.values.each do |value|
+          write_string << "#{value},"
+        end
+        line << [write_string]
       end
-
-
     end
-    # test_csv=CSV.open("/home/christopher/Documents/WMU Classes/CS5950_Machine_Learning/CS5950-Machine_Learning/A2/Ruby/#{iris_species}_test.csv", 'wb') do |line|
-    #   if count==0
-    #     @iris_test[0].each_key {|key| line << key}
-    #   else
-    #     @iris_test.each do |row|
-    #       line << row
-    #     end
-    #   end
-    # end
+
   end
 
 
