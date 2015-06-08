@@ -1,80 +1,101 @@
-data(iris)
-
-# Segment the Data into Training and Testing Datasets.
-
-# Gather all the pertinent variables into three binary lists such that
-# each variable can be compared against the other two.  Then the most
-# likely is the one with the highest probability of all three.
+ library(MASS)
+# Load the data from the generated training and testing data files.
 
 
-## Implementation note, this may not be the best way to handle this
-## (making two different data frames, then remerging into one, but
-## R remains quite intractible at times and so I settled for something
-## that works.
+virg_train = read.csv("../Iris_Data/Iris-virginica_train.csv")
+vers_train = read.csv("../Iris_Data/Iris-versicolor_train.csv")
+set_train = read.csv("../Iris_Data/Iris-setosa_train.csv")
+test = read.csv("../Iris_data/iris_test.csv")
 
-virginica=iris[iris$Species=='virginica',]
-versicolor=iris[iris$Species=='versicolor',]
-setosa=iris[iris$Species=='setosa',]
 
-not_virginica=iris[iris$Species!='virginica',]
-not_versicolor=iris[iris$Species!='versicolor',]
-not_setosa=iris[iris$Species!='setosa',]
-
-not_virginica$Species <- "Other"
-not_setosa$Species <- "Other"
-not_versicolor$Species  <- "Other"
-
-virginica = rbind(virginica, not_virginica)
-setosa = rbind(setosa, not_setosa)
-versicolor = rbind(versicolor, not_versicolor)
-
-# Generate and Test a General Linear Model.
-# Sepal.Length Sepal.Width Petal.Length Petal.Width
-vir.glm.model=glm(Species~Sepal.Length + Sepal.Width
-		+ Petal.Length + Petal.Width, data=virginica,
+vir.glm.model=glm(Species~Sepal_Length + Sepal_Width
+		+ Petal_Length + Petal_Width, data=virg_train,
 		family=binomial)
-# summary(vir.glm.model)
+ 
 
-vir.glm.probs=predict(vir.glm.model, type="response")
-vir.glm.preds=rep("other", nrow(virginica))
-vir.glm.preds[vir.glm.probs < 0.5]="virginica"
+vir.glm.probs=predict(vir.glm.model,test, type="response")
+vir.glm.preds=rep("other", nrow(test))
+vir.glm.preds[vir.glm.probs < 0.5]="Iris-virginica"
 
 # vir.glm.preds
 
-table(virginica$Species, vir.glm.preds)
-mean(vir.glm.preds==virginica$Species)
-set.glm.model=glm(Species~Sepal.Length + Sepal.Width
-		+ Petal.Length + Petal.Width, data=setosa,
-		family=binomial)
+ table(test$Species, vir.glm.preds)
+ mean(vir.glm.preds==test$Species)
 
-#summary(set.glm.model)
+#  GLM for setosa
+ set.glm.model=glm(Species~Sepal_Length + Sepal_Width
+ 		+ Petal_Length + Petal_Width, data=set_train,
+ 		family=binomial)
+# 
+# #summary(set.glm.model)
+# 
+ set.glm.probs=predict(set.glm.model, test, type="response")
+ set.glm.preds=rep("other", nrow(test))
+ set.glm.preds[set.glm.probs < 0.5]="Iris-setosa"
+# 
+# # set.glm.preds
+# 
+ table(test$Species, set.glm.preds)
+ mean(set.glm.preds==test$Species)
+ 
+ 
+# # GLM for Versicolor
+ ver.glm.model=glm(Species~Sepal_Length + Sepal_Width
+ 		+ Petal_Length + Petal_Width, data=vers_train,
+ 		family=binomial)
+ 
+# # summary(ver.glm.model)
+# 
+ ver.glm.probs=predict(ver.glm.model, test, type="response")
+ ver.glm.preds=rep("other", nrow(test))
+ ver.glm.preds[ver.glm.probs < 0.5]="Iris-versicolor"
+ 
+# # ver.glm.preds
+ table(test$Species, ver.glm.preds )
+ mean(ver.glm.preds==test$Species)
+ 
+ 
+ ### Linear Discriminant Analysis ###
+ print("LINEAR DISCRIMINANT ANALYSIS")
 
-set.glm.probs=predict(set.glm.model, type="response")
-set.glm.preds=rep("other", nrow(setosa))
-set.glm.preds[set.glm.probs < 0.5]="setosa"
+ 
+ # LDA for virginica
+ vir.lda.model=lda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=virg_train)
+ vir.lda.pred=predict(vir.lda.model,test)
+ table(vir.lda.pred$class, test$Species)
+ 
+ 
+ # LDA for setosa
+ 
+ 
+ set.lda.model=lda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=set_train)
+ set.lda.pred=predict(set.lda.model, test)
+ table(set.lda.pred$class, test$Species)
+ 
+ # LDA for versicolor
+ ver.lda.model=lda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=vers_train)
+ ver.lda.pred=predict(ver.lda.model, test)
+ table(ver.lda.pred$class, test$Species)
+ 
+ 
+ ### QUADRATIC DISCRIMINANT ANALYSIS ###
+ 
+ print("QUADRATIC DISCRIMINANT ANALYSIS")
 
-# set.glm.preds
-
-table(setosa$Species, set.glm.preds)
-mean(set.glm.preds==setosa$Species)
-ver.glm.model=glm(Species~Sepal.Length + Sepal.Width
-		+ Petal.Length + Petal.Width, data=versicolor,
-		family=binomial)
-
-# summary(ver.glm.model)
-
-ver.glm.probs=predict(ver.glm.model, type="response")
-ver.glm.preds=rep("other", nrow(versicolor))
-ver.glm.preds[ver.glm.probs < 0.5]="versicolor"
-
-# ver.glm.preds
-table(versicolor$Species, ver.glm.preds )
-mean(ver.glm.preds==versicolor$Species)
-
-
-# Linear Discriminant Analysis
-library(MASS)
-vir.lda.model=lda(Species~Petal.Length + Petal.Width + Sepal.Length +
-		  Sepal.Width, data=virginica)
-		  
-vir.lda.pred=predict(vir.lda.model, 
+ # QDA for virginica
+ vir.qda.model=qda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=virg_train)
+ vir.qda.pred=predict(vir.qda.model,test)
+ table(vir.qda.pred$class, test$Species)
+ 
+ 
+ # QDA for setosa
+ 
+ set.qda.model=qda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=set_train)
+ set.qda.pred=predict(set.qda.model, test)
+ table(set.qda.pred$class, test$Species)
+ 
+ # QDA for versicolor
+ ver.qda.model=qda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=vers_train)
+ ver.qda.pred=predict(ver.qda.model, test)
+ table(ver.qda.pred$class, test$Species)
+ 
