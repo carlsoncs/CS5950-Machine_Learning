@@ -71,6 +71,6 @@ mean(ver.glm.preds==versicolor$Species)
 
 
 # Linear Discriminant Analysis
-
+library(MASS)
 vir.lda.model=lda(Species~Petal.Length + Petal.Width + Sepal.Length +
 		  Sepal.Width, data=virginica)

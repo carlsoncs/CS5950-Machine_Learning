@@ -1,5 +1,7 @@
 data(iris)
 
+# Segment the Data into Training and Testing Datasets.
+
 # Gather all the pertinent variables into three binary lists such that
 # each variable can be compared against the other two.  Then the most
 # likely is the one with the highest probability of all three.
