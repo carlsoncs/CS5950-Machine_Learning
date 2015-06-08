@@ -1,0 +1,61 @@
+ , alt.atheism, comp.graphics, comp.os.ms-windows.misc, comp.sys.ibm.pc.hardware, comp.sys.mac.hardware, comp.windows.x, misc.forsale, rec.autos, rec.motorcycles, rec.sport.baseball, rec.sport.hockey, sci.crypt, sci.electronics, sci.med, sci.space, soc.religion.christian, talk.politics.guns, talk.politics.mideast, talk.politics.misc, talk.religion.misc, 
+alt.atheism, 0, 18, 60, 15, 25, 13, 139, 14, 1, 12, 2, 0, 13, 2, 0, 2, 0, 3, 0, 0, 
+
+
+comp.graphics, 33, 10, 24, 7, 23, 5, 97, 41, 13, 75, 7, 4, 4, 3, 0, 24, 4, 11, 1, 3, 
+
+
+comp.os.ms-windows.misc, 33, 10, 15, 5, 8, 6, 116, 40, 13, 60, 10, 4, 10, 7, 0, 32, 2, 12, 3, 8, 
+
+
+comp.sys.ibm.pc.hardware, 41, 8, 23, 4, 11, 6, 88, 19, 12, 101, 5, 1, 8, 5, 1, 34, 5, 16, 1, 3, 
+
+
+comp.sys.mac.hardware, 25, 15, 13, 14, 13, 16, 87, 19, 14, 76, 6, 2, 6, 5, 0, 32, 10, 18, 2, 12, 
+
+
+comp.windows.x, 36, 10, 12, 12, 15, 2, 123, 26, 9, 71, 7, 0, 5, 6, 1, 25, 13, 12, 6, 4, 
+
+
+misc.forsale, 45, 24, 31, 11, 19, 24, 36, 12, 8, 76, 10, 4, 3, 7, 1, 32, 5, 11, 2, 29, 
+
+
+rec.autos, 19, 47, 57, 22, 24, 12, 106, 5, 7, 44, 2, 5, 3, 11, 0, 15, 2, 8, 2, 5, 
+
+
+rec.motorcycles, 30, 69, 67, 29, 37, 26, 54, 6, 1, 38, 2, 3, 9, 1, 0, 15, 0, 7, 0, 4, 
+
+
+rec.sport.baseball, 4, 31, 75, 23, 38, 49, 96, 26, 5, 1, 1, 3, 14, 5, 1, 5, 2, 16, 0, 2, 
+
+
+rec.sport.hockey, 17, 65, 65, 20, 20, 34, 98, 23, 8, 10, 3, 5, 4, 6, 1, 4, 0, 10, 0, 6, 
+
+
+sci.crypt, 3, 15, 55, 15, 35, 13, 144, 30, 6, 54, 10, 0, 7, 1, 0, 4, 0, 4, 0, 0, 
+
+
+sci.electronics, 23, 13, 39, 18, 15, 15, 94, 20, 3, 87, 6, 3, 1, 7, 0, 25, 2, 11, 2, 9, 
+
+
+sci.med, 4, 30, 59, 29, 34, 32, 122, 21, 5, 30, 4, 5, 6, 0, 1, 3, 0, 9, 1, 1, 
+
+
+sci.space, 15, 17, 87, 36, 36, 15, 103, 19, 7, 31, 2, 1, 7, 2, 1, 4, 1, 9, 1, 0, 
+
+
+soc.religion.christian, 3, 43, 49, 22, 22, 18, 168, 32, 2, 14, 2, 0, 13, 3, 0, 1, 0, 5, 0, 1, 
+
+
+talk.politics.guns, 1, 46, 96, 20, 46, 34, 87, 7, 0, 14, 1, 0, 9, 1, 0, 0, 0, 1, 0, 1, 
+
+
+talk.politics.mideast, 0, 25, 98, 21, 33, 15, 138, 21, 2, 8, 0, 1, 5, 3, 0, 1, 0, 0, 0, 5, 
+
+
+talk.politics.misc, 2, 24, 52, 34, 33, 28, 111, 8, 3, 4, 3, 0, 7, 0, 0, 0, 0, 1, 0, 0, 
+
+
+talk.religion.misc, 1, 19, 50, 9, 22, 12, 95, 16, 0, 6, 1, 0, 7, 3, 0, 4, 0, 5, 0, 1, 
+
+
