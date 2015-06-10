@@ -1,151 +1,60 @@
- library(MASS)
-# Load the data from the generated training and testing data files.
+## IF necessary, install the VGAM library
+# install.packages("VGAM")
+  library(MASS)
+  library(VGAM)
+ # Load the data
+  data(iris)
 
-n_test = floor((1/4)*nrow(iris))
-n_train = nrow(iris) - n_test
 
-set.seed(100) # This is required in order to make the sampling results
+ # Partition the data into training and testing data.
+
+  n_test = floor((1/4)*nrow(iris))
+  n_train = nrow(iris) - n_test
+
+  set.seed(100) # This is required in order to make the sampling results
 							# reproducable.
 
-# Rather than sampling directly from the data, it is easier to set up
-# the desired indices for one of the groups (supposing two groups)
-# with a random sampling  algorithm on an array of indices which is the
-# length of the data frame, and then use the indices to divide the data.
-train_indices = sample(seq_len(nrow(iris)), size=n_train)
+ # Rather than sampling directly from the data, it is easier to set up
+ # the desired indices for one of the groups (supposing two groups)
+ # with a random sampling  algorithm on an array of indices which is the
+ # length of the data frame, and then use the indices to divide the data.
+  train_indices = sample(seq_len(nrow(iris)), size=n_train)
 
-iris_train = iris[train_indices,]
-iris_test = iris[-train_indices, ]
+  iris_train = iris[train_indices,]
+  iris_test = iris[-train_indices, ]
 
-virg_train = read.csv("../Iris_Data/Iris-virginica_train.csv")
-vers_train = read.csv("../Iris_Data/Iris-versicolor_train.csv")
-set_train = read.csv("../Iris_Data/Iris-setosa_train.csv")
-test = read.csv("../Iris_data/iris_test.csv")
-
-
-vir.glm.model=glm(Species~Sepal_Length + Sepal_Width
-		+ Petal_Length + Petal_Width, data=virg_train,
-		family=binomial)
-
-
-vir.glm.probs=predict(vir.glm.model,test, type="response")
-vir.glm.preds=rep("other", nrow(test))
-vir.glm.preds[vir.glm.probs < 0.5]="Iris-virginica"
-
-# vir.glm.preds
-
-
-table(virginica$Species, vir.glm.preds)
-mean(vir.glm.preds==virginica$Species)
-set.glm.model=glm(Species~Sepal.Length + Sepal.Width
-		+ Petal.Length + Petal.Width, data=setosa,
-		family=binomial)
-
-#summary(set.glm.model)
-
-set.glm.probs=predict(set.glm.model, type="response")
-set.glm.preds=rep("other", nrow(setosa))
-set.glm.preds[set.glm.probs < 0.5]="setosa"
-
-# set.glm.preds
-
-table(setosa$Species, set.glm.preds)
-mean(set.glm.preds==setosa$Species)
-ver.glm.model=glm(Species~Sepal.Length + Sepal.Width
-		+ Petal.Length + Petal.Width, data=versicolor,
-		family=binomial)
-
-# summary(ver.glm.model)
-
-ver.glm.probs=predict(ver.glm.model, type="response")
-ver.glm.preds=rep("other", nrow(versicolor))
-ver.glm.preds[ver.glm.probs < 0.5]="versicolor"
-
-# ver.glm.preds
-table(versicolor$Species, ver.glm.preds )
-mean(ver.glm.preds==versicolor$Species)
-
-
-# Linear Discriminant Analysis
-library(MASS)
-vir.lda.model=lda(Species~Petal.Length + Petal.Width + Sepal.Length +
-		  Sepal.Width, data=virginica)
-
- table(test$Species, vir.glm.preds)
- mean(vir.glm.preds==test$Species)
-
-#  GLM for setosa
- set.glm.model=glm(Species~Sepal_Length + Sepal_Width
- 		+ Petal_Length + Petal_Width, data=set_train,
- 		family=binomial)
-#
-# #summary(set.glm.model)
-#
- set.glm.probs=predict(set.glm.model, test, type="response")
- set.glm.preds=rep("other", nrow(test))
- set.glm.preds[set.glm.probs < 0.5]="Iris-setosa"
-#
-# # set.glm.preds
-#
- table(test$Species, set.glm.preds)
- mean(set.glm.preds==test$Species)
-
-
-# # GLM for Versicolor
- ver.glm.model=glm(Species~Sepal_Length + Sepal_Width
- 		+ Petal_Length + Petal_Width, data=vers_train,
- 		family=binomial)
-
-# # summary(ver.glm.model)
-#
- ver.glm.probs=predict(ver.glm.model, test, type="response")
- ver.glm.preds=rep("other", nrow(test))
- ver.glm.preds[ver.glm.probs < 0.5]="Iris-versicolor"
-
-# # ver.glm.preds
- table(test$Species, ver.glm.preds )
- mean(ver.glm.preds==test$Species)
+ ### Logistic Regression ###
+ 
+ # Using the vglm function for multinomial categorical data is a bit 
+ # different than we are used to.  This link is an excellent reference
+ # for the lglm function: https://www.stat.auckland.ac.nz/~yee/VGAM/doc/VGAMrefcard.pdf
+  print("Logistic Regression")
+  
+ 
+  
+  glm.model=vglm(Species~cbind(Sepal.Length, Sepal.Width, Petal.Length,
+					Petal.Width), family=multinomial, data=iris_train)
+  glm.prob=as.data.frame(predict(glm.model, iris_test, type="response"))
+  glm.pred=rep("Iris-virginica", nrow(iris_test))
+  glm.pred[glm.prob$setosa > 0.66] = "Iris-setosa"
+  glm.pred[glm.prob$versicolor > 0.66] = "Iris-versicolor"
+ 
+  table(glm.pred, iris_test$Species)
 
 
  ### Linear Discriminant Analysis ###
- print("LINEAR DISCRIMINANT ANALYSIS")
+  print("LINEAR DISCRIMINANT ANALYSIS")
 
-
- # LDA for virginica
- vir.lda.model=lda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=virg_train)
- vir.lda.pred=predict(vir.lda.model,test)
- table(vir.lda.pred$class, test$Species)
-
-
- # LDA for setosa
-
-
- set.lda.model=lda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=set_train)
- set.lda.pred=predict(set.lda.model, test)
- table(set.lda.pred$class, test$Species)
-
- # LDA for versicolor
- ver.lda.model=lda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=vers_train)
- ver.lda.pred=predict(ver.lda.model, test)
- table(ver.lda.pred$class, test$Species)
+  lda.model=lda(Species~., data=iris_train)
+  lda.pred=predict(lda.model, iris_test)
+  table(lda.pred$class, iris_test$Species)
 
 
  ### QUADRATIC DISCRIMINANT ANALYSIS ###
 
- print("QUADRATIC DISCRIMINANT ANALYSIS")
+  print("QUADRATIC DISCRIMINANT ANALYSIS")
 
- # QDA for virginica
- vir.qda.model=qda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=virg_train)
- vir.qda.pred=predict(vir.qda.model,test)
- table(vir.qda.pred$class, test$Species)
+  qda.model=qda(Species~., data=iris_train)
+  qda.pred=predict(qda.model, iris_test)
+  table(qda.pred$class, iris_test$Species)
 
-
- # QDA for setosa
-
- set.qda.model=qda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=set_train)
- set.qda.pred=predict(set.qda.model, test)
- table(set.qda.pred$class, test$Species)
-
- # QDA for versicolor
- ver.qda.model=qda(Species~Petal_Length + Petal_Width + Sepal_Length + Sepal_Width, data=vers_train)
- ver.qda.pred=predict(ver.qda.model, test)
- table(ver.qda.pred$class, test$Species)
