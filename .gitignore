@@ -5,4 +5,6 @@
 */.idea/*
 .idea/*
 1.NewsGroups/Data/*
-
+*/Resources/*
+**/Resources/*
+/Resources/*
