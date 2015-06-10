@@ -27,7 +27,6 @@ set.glm.model=glm(Species~Sepal_Length + Sepal_Width
 set.glm.probs <- predict(set.glm.model, bin_test, type="response")
 set.glm.preds <- rep("other", nrow(bin_test))
 set.glm.preds[set.glm.probs < 0.5] <-"Iris-setosa"
-set.glm.preds
 table(bin_test$Species, set.glm.preds)
 
 
