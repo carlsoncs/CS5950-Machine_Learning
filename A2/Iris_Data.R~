@@ -1,5 +1,20 @@
 data(iris)
 
+# Segment the Data into Training and Testing Datasets.
+
+n_test = floor((1/4)*nrow(iris))
+n_train = nrow(iris) - n_test
+
+set.seed(100) # This is required in order to make the sampling results
+							# reproducable.
+
+train_indices = sample(seq_len(nrow(iris)), size=n_train)
+
+iris_train = iris[train_indices,]
+iris_test = iris[-train_indices, ]
+iris_train
+iris_test
+
 # Gather all the pertinent variables into three binary lists such that
 # each variable can be compared against the other two.  Then the most
 # likely is the one with the highest probability of all three.

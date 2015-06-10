@@ -2,9 +2,20 @@ data(iris)
 
 # Segment the Data into Training and Testing Datasets.
 
-# Gather all the pertinent variables into three binary lists such that
-# each variable can be compared against the other two.  Then the most
-# likely is the one with the highest probability of all three.
+n_test = floor((1/4)*nrow(iris))
+n_train = nrow(iris) - n_test
+
+set.seed(100) # This is required in order to make the sampling results
+							# reproducable.
+
+# Rather than sampling directly from the data, it is easier to set up
+# the desired indices for one of the groups (supposing two groups)
+# with a random sampling  algorithm on an array of indices which is the
+# length of the data frame, and then use the indices to divide the data.
+train_indices = sample(seq_len(nrow(iris)), size=n_train)
+
+iris_train = iris[train_indices,]
+iris_test = iris[-train_indices, ]
 
 
 ## Implementation note, this may not be the best way to handle this
@@ -76,5 +87,3 @@ mean(ver.glm.preds==versicolor$Species)
 library(MASS)
 vir.lda.model=lda(Species~Petal.Length + Petal.Width + Sepal.Length +
 		  Sepal.Width, data=virginica)
-		  
-vir.lda.pred=predict(vir.lda.model, 
